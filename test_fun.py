@@ -91,3 +91,16 @@ class TestCheckingConectivity:
 		result = is_strongly_connected(adjacency_matrix, node_names)
 
 		assert result is True
+
+	def test_checking_disconnected_graph(self):
+		node_names = ['A', 'B', 'C']
+		adjacency_matrix = [
+			# A, B, C
+			[ 0, 0, 1],  # A
+			[ 0, 0, 0],  # B
+			[ 1, 0, 0],  # C
+		]
+
+		result = is_strongly_connected(adjacency_matrix, node_names)
+
+		assert result is False
