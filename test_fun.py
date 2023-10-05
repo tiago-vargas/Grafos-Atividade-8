@@ -78,29 +78,71 @@ class TestComputingAdjacencyList:
 			}
 
 
-class TestCheckingConectivity:
-	def test_checking_connected_graph(self):
-		node_names = ['6', '7', '8']
+class TestCheckingReacheability:
+	def test_V_graph(self):
+		"""
+		```
+		A     C
+		 \\   /
+		   X
+		```
+		"""
+		node_names = ['A', 'X', 'C']
 		adjacency_matrix = [
-			# 6, 7, 8
-			[ 0, 1, 1],  # 6
-			[ 1, 0, 1],  # 7
-			[ 1, 1, 0],  # 8
+			# A, X, C
+			[ 0, 1, 0],  # A
+			[ 1, 0, 1],  # X
+			[ 0, 1, 0],  # C
 		]
 
-		result = is_strongly_connected(adjacency_matrix, node_names)
+		# neighbors = {
+		# 	'A': ['X'],
+		# 	'X': ['A', 'C'],
+		# 	'C': ['X'],
+		# }
 
-		assert result is True
+		result = list_reacheable_nodes(adjacency_matrix, node_names)
 
-	def test_checking_disconnected_graph(self):
-		node_names = ['A', 'B', 'C']
+		assert result == {
+			'A': ['X', 'C'],
+			'X': ['A', 'C'],
+			'C': ['A', 'X'],
+		}
+
+	def test_T_graph(self):
+		"""
+		```
+		A — X — C
+		    |
+		    D
+		    |
+		    E
+		```
+		"""
+		node_names = ['A', 'X', 'C', 'D', 'E']
 		adjacency_matrix = [
-			# A, B, C
-			[ 0, 0, 1],  # A
-			[ 0, 0, 0],  # B
-			[ 1, 0, 0],  # C
+			# A, X, C, D, E
+			[ 0, 1, 0, 0, 0],  # A
+			[ 1, 0, 1, 1, 0],  # X
+			[ 0, 1, 0, 0, 0],  # C
+			[ 0, 1, 0, 0, 1],  # D
+			[ 0, 0, 0, 1, 0],  # E
 		]
 
-		result = is_strongly_connected(adjacency_matrix, node_names)
+		# neighbors = {
+		# 	'A': ['X'],
+		# 	'X': ['A', 'C', 'D'],
+		# 	'C': ['X'],
+		# 	'D': ['X', 'E'],
+		# 	'E': ['D'],
+		# }
 
-		assert result is False
+		result = list_reacheable_nodes(adjacency_matrix, node_names)
+
+		assert result == {
+			'A': ['X', 'C', 'D', 'E'],
+			'X': ['A', 'C', 'D', 'E'],
+			'C': ['A', 'X', 'D', 'E'],
+			'D': ['A', 'X', 'C', 'E'],
+			'E': ['A', 'X', 'C', 'D'],
+		}
