@@ -14,3 +14,14 @@ def compute_adjacency_list_from(adjacency_matrix: list[list[int]], node_names: l
 		result[node_name] = neighbors
 
 	return result
+
+
+def is_strongly_connected(adjacency_matrix: list[list[int]], node_names: list[str]) -> bool:
+	l = compute_adjacency_list_from(adjacency_matrix, node_names)
+
+	for node in l:
+		neighbors = l[node]
+		if set(neighbors + [node]) != set(node_names):
+			return False
+
+	return True

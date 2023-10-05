@@ -76,3 +76,18 @@ class TestComputingAdjacencyList:
 				'5': ['4', '6'],
 				'6': ['4'],
 			}
+
+
+class TestCheckingConectivity:
+	def test_checking_connected_graph(self):
+		node_names = ['6', '7', '8']
+		adjacency_matrix = [
+			# 6, 7, 8
+			[ 0, 1, 1],  # 6
+			[ 1, 0, 1],  # 7
+			[ 1, 1, 0],  # 8
+		]
+
+		result = is_strongly_connected(adjacency_matrix, node_names)
+
+		assert result is True
