@@ -15,13 +15,13 @@ class TestComputingAdjacencyList:
 
 		l = compute_adjacency_list_from(adjacency_matrix, node_names)
 
-		assert l == [
-			['2', '3'],
-			['1', '3'],
-			['1', '2', '4', '5'],
-			['3'],
-			['3'],
-		]
+		assert l == {
+			'1': ['2', '3'],
+			'2': ['1', '3'],
+			'3': ['1', '2', '4', '5'],
+			'4': ['3'],
+			'5': ['3'],
+		}
 
 	def test_big_adjacency_matrix(self):
 		node_names = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -40,14 +40,14 @@ class TestComputingAdjacencyList:
 
 		l = compute_adjacency_list_from(adjacency_matrix, node_names)
 
-		assert l == [
-			['2', '4', '5'],
-			['1', '3', '5'],
-			['2', '9'],
-			['1', '5'],
-			['1', '2', '4'],
-			['7', '8'],
-			['6', '8'],
-			['6', '7'],
-			['3'],
-		]
+		assert l == {
+			'1': ['2', '4', '5'],
+			'2': ['1', '3', '5'],
+			'3': ['2', '9'],
+			'4': ['1', '5'],
+			'5': ['1', '2', '4'],
+			'6': ['7', '8'],
+			'7': ['6', '8'],
+			'8': ['6', '7'],
+			'9': ['3'],
+		}
