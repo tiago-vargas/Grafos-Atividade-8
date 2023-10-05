@@ -16,6 +16,17 @@ def compute_adjacency_list_from(adjacency_matrix: list[list[int]], node_names: l
 	return result
 
 
+def is_strongly_connected(adjacency_matrix: list[list[int]], node_names: list[str]) -> bool:
+	r = list_reacheable_nodes(adjacency_matrix, node_names)
+
+	for node in r:
+		neighbors = r[node]
+		if set(neighbors + [node]) != set(node_names):
+			return False
+
+	return True
+
+
 def list_reacheable_nodes(adjacency_matrix: list[list[int]], node_names: list[str]) -> dict[str, list[str]]:
 	neighbors = compute_adjacency_list_from(adjacency_matrix, node_names)
 	result = {name: [] for name in node_names}

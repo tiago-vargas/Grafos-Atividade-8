@@ -78,6 +78,47 @@ class TestComputingAdjacencyList:
 			}
 
 
+class TestCheckingConectivity:
+	def test_checking_connected_graph(self):
+		node_names = ['6', '7', '8']
+		adjacency_matrix = [
+			# 6, 7, 8
+			[ 0, 1, 1],  # 6
+			[ 1, 0, 1],  # 7
+			[ 1, 1, 0],  # 8
+		]
+
+		result = is_strongly_connected(adjacency_matrix, node_names)
+
+		assert result is True
+
+	def test_checking_disconnected_graph(self):
+		node_names = ['A', 'B', 'C']
+		adjacency_matrix = [
+			# A, B, C
+			[ 0, 0, 1],  # A
+			[ 0, 0, 0],  # B
+			[ 1, 0, 0],  # C
+		]
+
+		result = is_strongly_connected(adjacency_matrix, node_names)
+
+		assert result is False
+
+	def test_connected_graph_with_no_immediate_neighbors(self):
+		node_names = ['A', 'X', 'C']
+		adjacency_matrix = [
+			# A, X, C
+			[ 0, 1, 0],  # A
+			[ 1, 0, 1],  # X
+			[ 0, 1, 0],  # C
+		]
+
+		result = is_strongly_connected(adjacency_matrix, node_names)
+
+		assert result is True
+
+
 class TestCheckingReacheability:
 	def test_V_graph(self):
 		"""
