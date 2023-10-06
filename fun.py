@@ -35,3 +35,20 @@ def list_reacheable_nodes(adjacency_matrix: list[list[int]], node_names: list[st
 		result[node] = [x for x in result[node] if x != node]
 
 	return result
+
+def count_connected_components(graph):
+    visited = set()
+    components = 0
+
+    def dfs(vertex):
+        visited.add(vertex)
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                dfs(neighbor)
+
+    for vertex in graph:
+        if vertex not in visited:
+            dfs(vertex)
+            components += 1
+
+    return components
