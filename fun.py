@@ -16,6 +16,31 @@ def compute_adjacency_list_from(adjacency_matrix: list[list[int]], node_names: l
 	return result
 
 
+def compute_adjacency_list_from_incidence_matrix(incidence_matrix: list[list[int]], node_names: list[str]) -> dict[str, list[str]]:
+	result: dict[str, list[str]] = {}
+
+	for edge_row in incidence_matrix:
+		nodes = []
+		for (i, element) in enumerate(edge_row):
+			if element == 1:
+				node = node_names[i]
+				nodes.append(node)
+		assert len(nodes) == 2, f"Error: edge {edge_row} has {len(nodes)} nodes instead of 2"
+		[node_1, node_2] = nodes
+
+		if node_1 not in result:
+			result[node_1] = []
+		if node_2 not in result[node_1]:
+			result[node_1].append(node_2)
+
+		if node_2 not in result:
+			result[node_2] = []
+		if node_1 not in result[node_2]:
+			result[node_2].append(node_1)
+
+	return result
+
+
 def list_reacheable_nodes(adjacency_matrix: list[list[int]], node_names: list[str]) -> dict[str, list[str]]:
 	neighbors = compute_adjacency_list_from(adjacency_matrix, node_names)
 	result = {name: [] for name in node_names}
@@ -37,57 +62,57 @@ def list_reacheable_nodes(adjacency_matrix: list[list[int]], node_names: list[st
 	return result
 
 def count_connected_components(graph):
-    visited = set()
-    components = 0
+	visited = set()
+	components = 0
 
-    def dfs(vertex):
-        visited.add(vertex)
-        for neighbor in graph[vertex]:
-            if neighbor not in visited:
-                dfs(neighbor)
+	def dfs(vertex):
+		visited.add(vertex)
+		for neighbor in graph[vertex]:
+			if neighbor not in visited:
+				dfs(neighbor)
 
-    for vertex in graph:
-        if vertex not in visited:
-            dfs(vertex)
-            components += 1
+	for vertex in graph:
+		if vertex not in visited:
+			dfs(vertex)
+			components += 1
 
-    return components
+	return components
 
 def topological_sort(graph):
-    def dfs(node):
-        visited.add(node)
-        for neighbor in graph.get(node, []):
-            if neighbor not in visited:
-                dfs(neighbor)
-        sorted_nodes.append(node)
+	def dfs(node):
+		visited.add(node)
+		for neighbor in graph.get(node, []):
+			if neighbor not in visited:
+				dfs(neighbor)
+		sorted_nodes.append(node)
 
-    visited = set()
-    sorted_nodes = []
+	visited = set()
+	sorted_nodes = []
 
-    for node in graph.keys():
-        if node not in visited:
-            dfs(node)
+	for node in graph.keys():
+		if node not in visited:
+			dfs(node)
 
-    return list(reversed(sorted_nodes))
+	return list(reversed(sorted_nodes))
 
 def partial_topological_sort(graph):
-    in_degree = {} 
-    for node in graph:
-        in_degree[node] = 0
+	in_degree = {}
+	for node in graph:
+		in_degree[node] = 0
 
-    for node in graph:
-        for neighbor in graph[node]:
-            in_degree[neighbor] += 1
+	for node in graph:
+		for neighbor in graph[node]:
+			in_degree[neighbor] += 1
 
-    queue = [node for node in graph if in_degree[node] == 0]
-    result = []
+	queue = [node for node in graph if in_degree[node] == 0]
+	result = []
 
-    while queue:
-        node = queue.pop(0)
-        result.append(node)
-        for neighbor in graph[node]:
-            in_degree[neighbor] -= 1
-            if in_degree[neighbor] == 0:
-                queue.append(neighbor)
+	while queue:
+		node = queue.pop(0)
+		result.append(node)
+		for neighbor in graph[node]:
+			in_degree[neighbor] -= 1
+			if in_degree[neighbor] == 0:
+				queue.append(neighbor)
 
-    return result
+	return result
