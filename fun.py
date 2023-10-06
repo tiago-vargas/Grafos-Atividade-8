@@ -52,3 +52,42 @@ def count_connected_components(graph):
             components += 1
 
     return components
+
+def topological_sort(graph):
+    def dfs(node):
+        visited.add(node)
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                dfs(neighbor)
+        sorted_nodes.append(node)
+
+    visited = set()
+    sorted_nodes = []
+
+    for node in graph.keys():
+        if node not in visited:
+            dfs(node)
+
+    return list(reversed(sorted_nodes))
+
+def partial_topological_sort(graph):
+    in_degree = {} 
+    for node in graph:
+        in_degree[node] = 0
+
+    for node in graph:
+        for neighbor in graph[node]:
+            in_degree[neighbor] += 1
+
+    queue = [node for node in graph if in_degree[node] == 0]
+    result = []
+
+    while queue:
+        node = queue.pop(0)
+        result.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+
+    return result
